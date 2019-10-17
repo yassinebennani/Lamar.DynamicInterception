@@ -10,7 +10,7 @@ Package manager console command for installation:
 ```cs
 namespace App
 {
-    using Lamar.Interception;
+    using Lamar.DynamicInterception;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
