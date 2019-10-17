@@ -4,6 +4,14 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Yassine BENNANI</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/yassinebennani/Lamar.DynamicInterception</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yassinebennani/Lamar.DynamicInterception</RepositoryUrl>
+    <RepositoryType>c#</RepositoryType>
+    <PackageTags>Lamar;Interception;Interceptor</PackageTags>
+    <Description>This project is an adapation of StructureMap.DynamicInterception. 
+This Project is a workaround to support dynamic interceptions with Lamar as interceptors are not supported yet natively by Lamar.</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

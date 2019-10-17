@@ -33,6 +33,31 @@ namespace Lamar.DynamicInterception
             return proxyFunction;
         }
 
+        public static Func<IServiceContext, TPluginType> Build<TPluginType, TPluginTypeProxy>(String instanceName, IInterceptionBehavior behavior)
+            where TPluginType : class
+            where TPluginTypeProxy : TPluginType
+        {
+            Func<IServiceContext, TPluginType> proxyFunction = (context) =>
+            {
+                TPluginType service = context.GetInstance<TPluginTypeProxy>(instanceName);
+                return InterceptorFunctionBuilder.BuildInterceptorFunction<TPluginType>(behavior)(service);
+            };
+            return proxyFunction;
+        }
+
+        public static Func<IServiceContext, TPluginType> Build<TPluginType, TPluginTypeProxy>(String instanceName, IEnumerable<IInterceptionBehavior> behaviors)
+            where TPluginType : class
+            where TPluginTypeProxy : TPluginType
+        {
+            Func<IServiceContext, TPluginType> proxyFunction = (context) =>
+            {
+                TPluginType service = context.GetInstance<TPluginTypeProxy>(instanceName);
+                return InterceptorFunctionBuilder.BuildInterceptorsFunction<TPluginType>(behaviors)(service);
+            };
+            return proxyFunction;
+        }
+
+
         #endregion Build Registration Functions Methods
 
         #region Build Interceptor Functions Methods
