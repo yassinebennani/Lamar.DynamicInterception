@@ -2,8 +2,9 @@
 This project is an adapation of StructureMap.DynamicInterception.
 This Project is just a workaround to support dynamic interceptions with Lamar as interceptors are not supported yet natively by Lamar.
 
-Available on [![NuGet](https://img.shields.io/nuget/v/EFCore.BulkExtensions.svg)](https://www.nuget.org/packages/Lamar.DynamicInterception/) latest version.<br>
-Package manager console command for installation: *Install-Package Lamar.DynamicInterception*
+Available on ![Nuget](https://img.shields.io/nuget/v/Lamar.DynamicInterception) latest version.<br>
+Package manager console command for installation: 
+*Install-Package Lamar.DynamicInterception*
 
 ## Interceptor Behavior Definition
 ```cs
