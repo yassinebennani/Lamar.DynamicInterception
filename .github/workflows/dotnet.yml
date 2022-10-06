@@ -20,9 +20,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+      
     - name: Restore dependencies
       run: dotnet restore $SOLUTION
+      
     - name: Build
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
+      
     - name: Push
-      run: dotnet push "/home/runner/work/Lamar.DynamicInterception/Lamar.DynamicInterception/src/bin/Release/Lamar.DynamicInterception.1.1.0.nupkg" -k ${{secrets.NUGET_API_KEY}} --skip-duplicate --verbosity normal
+      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -k ${{secrets.NUGET_API_KEY}}
