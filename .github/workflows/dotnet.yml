@@ -10,7 +10,7 @@ jobs:
   build:
     env:
       BUILD_CONFIG: 'Release'
-      SOLUTION: 'Lamar.DynamicInterception.sln'
+      SOLUTION: 'src/Lamar.DynamicInterception.sln'
       
     runs-on: ubuntu-latest
 
