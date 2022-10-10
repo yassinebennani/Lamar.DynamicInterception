@@ -8,6 +8,13 @@ namespace Lamar.DynamicInterception
     {
         #region InterceptWith Methods
 
+        public static LambdaInstance<IServiceContext, TPluginType> InterceptWith<TPluginType, TPluginTypeProxy>(this ServiceRegistry.InstanceExpression<TPluginType> instance, Func<IServiceContext, IInterceptionBehavior> behavior)
+            where TPluginType : class
+            where TPluginTypeProxy : TPluginType
+        {
+            return instance.Use(InterceptorFunctionBuilder.Build<TPluginType, TPluginTypeProxy>(behavior));
+        }
+
         public static LambdaInstance<IServiceContext, TPluginType> InterceptWith<TPluginType, TPluginTypeProxy>(this ServiceRegistry.InstanceExpression<TPluginType> instance, IInterceptionBehavior behavior)
             where TPluginType : class
             where TPluginTypeProxy : TPluginType
