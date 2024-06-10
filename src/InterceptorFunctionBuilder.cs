@@ -1,4 +1,4 @@
-﻿using LamarCodeGeneration.Util;
+﻿using JasperFx.Core.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -91,7 +91,7 @@ namespace Lamar.DynamicInterception
             LambdaExpression lambda = Expression.Lambda(lambdaType, expression, variable);
             return lambda.Compile().As<Func<TPluginType, TPluginType>>();
         }
-        
+
         #endregion Build Interceptor Functions Methods
     }
 }

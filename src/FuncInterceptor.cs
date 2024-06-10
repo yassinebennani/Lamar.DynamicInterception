@@ -1,7 +1,7 @@
-﻿using System;
+﻿using JasperFx.Core.Reflection;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using LamarCodeGeneration.Util;
 
 namespace Lamar.DynamicInterception
 {
@@ -51,7 +51,7 @@ namespace Lamar.DynamicInterception
                     .ReplaceParameter(typeof(IServiceContext), Expression.Parameter(typeof(IServiceContext), "IContext"))
                     .Body.ToString();
 
-                return String.Format("FuncInterceptor of {0}: {1}", typeof(T).GetFullName(), bodyDescription);
+                return String.Format("FuncInterceptor of {0}: {1}", typeof(T).FullNameInCode(), bodyDescription);
 
             }
         }
@@ -63,12 +63,12 @@ namespace Lamar.DynamicInterception
 
         public Type Accepts
         {
-            get { return typeof (T); }
+            get { return typeof(T); }
         }
 
         public Type Returns
         {
-            get { return typeof (T); }
+            get { return typeof(T); }
         }
 
         protected bool Equals(FuncInterceptor<T> other)
@@ -81,7 +81,7 @@ namespace Lamar.DynamicInterception
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((FuncInterceptor<T>) obj);
+            return Equals((FuncInterceptor<T>)obj);
         }
 
         public override int GetHashCode()
@@ -91,7 +91,7 @@ namespace Lamar.DynamicInterception
 
         public override string ToString()
         {
-            return String.Format("Interceptor of {0}: {1}", typeof (T).GetFullName(), Description);
+            return String.Format("Interceptor of {0}: {1}", typeof(T).GetFullName(), Description);
         }
     }
 
