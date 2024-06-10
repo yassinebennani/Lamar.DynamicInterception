@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
+using JasperFx.Core.Reflection;
 using Lamar.IoC;
-using LamarCodeGeneration.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace Lamar.DynamicInterception
                     !(behavior is IAsyncInterceptionBehavior))
                 {
                     throw new LamarException(
-                        $"{behavior.GetType().GetFullName()} implements neither ISyncInterceptionBehavior nor IAsyncInterceptionBehavior");
+                        $"{behavior.GetType().FullNameInCode()} implements neither ISyncInterceptionBehavior nor IAsyncInterceptionBehavior");
                 }
             }
             return new CastleInterceptor(interceptionBehaviors);
