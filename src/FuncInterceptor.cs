@@ -1,11 +1,10 @@
-﻿using System;
+﻿using JasperFx.Core.Reflection;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using LamarCodeGeneration.Util;
 
 namespace Lamar.DynamicInterception
 {
-
     public class FuncInterceptor<T> : IFuncInterceptor
     {
         private readonly LambdaExpression _expression;
@@ -27,15 +26,14 @@ namespace Lamar.DynamicInterception
             _description = description;
         }
 
-
         public Expression ToExpression(ParameterExpression context, ParameterExpression variable)
         {
             var body = _expression.ReplaceParameter(Accepts, variable)
                 .ReplaceParameter(typeof(IServiceContext), context).Body;
 
             return Expression.Convert(body, typeof(T));
-
         }
+
         public Expression ToExpression(ParameterExpression variable)
         {
             var body = _expression.ReplaceParameter(Accepts, variable).Body;
@@ -51,8 +49,7 @@ namespace Lamar.DynamicInterception
                     .ReplaceParameter(typeof(IServiceContext), Expression.Parameter(typeof(IServiceContext), "IContext"))
                     .Body.ToString();
 
-                return String.Format("FuncInterceptor of {0}: {1}", typeof(T).GetFullName(), bodyDescription);
-
+                return string.Format("FuncInterceptor of {0}: {1}", typeof(T).FullNameInCode(), bodyDescription);
             }
         }
 
@@ -63,12 +60,12 @@ namespace Lamar.DynamicInterception
 
         public Type Accepts
         {
-            get { return typeof (T); }
+            get { return typeof(T); }
         }
 
         public Type Returns
         {
-            get { return typeof (T); }
+            get { return typeof(T); }
         }
 
         protected bool Equals(FuncInterceptor<T> other)
@@ -81,7 +78,7 @@ namespace Lamar.DynamicInterception
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((FuncInterceptor<T>) obj);
+            return Equals((FuncInterceptor<T>)obj);
         }
 
         public override int GetHashCode()
@@ -91,7 +88,7 @@ namespace Lamar.DynamicInterception
 
         public override string ToString()
         {
-            return String.Format("Interceptor of {0}: {1}", typeof (T).GetFullName(), Description);
+            return string.Format("Interceptor of {0}: {1}", typeof(T).FullNameInCode(), Description);
         }
     }
 
@@ -126,7 +123,6 @@ namespace Lamar.DynamicInterception
             _after = after;
         }
 
-
         protected override Expression VisitParameter(ParameterExpression node)
         {
             if (node != _before) return node;
@@ -142,7 +138,5 @@ namespace Lamar.DynamicInterception
                 throw e;
             }
         }
-
-
     }
 }

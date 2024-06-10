@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
+using JasperFx.Core.Reflection;
 using Lamar.IoC;
-using LamarCodeGeneration.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,37 +20,37 @@ namespace Lamar.DynamicInterception
         {
         }
 
-        public DynamicProxyInterceptor(params Type[] interceptionBehaviorTypes) : base(buildExpression(interceptionBehaviorTypes))
+        public DynamicProxyInterceptor(params Type[] interceptionBehaviorTypes) : base(BuildExpression(interceptionBehaviorTypes))
         {
-            _description = buildDescription(interceptionBehaviorTypes);
+            _description = BuildDescription(interceptionBehaviorTypes);
         }
 
         public DynamicProxyInterceptor(IEnumerable<IInterceptionBehavior> interceptionBehaviors) : this(interceptionBehaviors.ToArray())
         {
         }
 
-        private DynamicProxyInterceptor(IInterceptionBehavior[] interceptionBehaviors) : base(buildExpression(interceptionBehaviors))
+        private DynamicProxyInterceptor(IInterceptionBehavior[] interceptionBehaviors) : base(BuildExpression(interceptionBehaviors))
         {
-            _description = buildDescription(interceptionBehaviors.Select(b => b.GetType()));
+            _description = BuildDescription(interceptionBehaviors.Select(b => b.GetType()));
         }
 
-        private static Expression<Func<IServiceContext, TPluginType, TPluginType>> buildExpression(IEnumerable<Type> interceptionBehaviorTypes)
+        private static Expression<Func<IServiceContext, TPluginType, TPluginType>> BuildExpression(IEnumerable<Type> interceptionBehaviorTypes)
         {
             return (context, instance) => proxyGenerator.CreateInterfaceProxyWithTarget(
                 instance,
-                wrapInterceptors(interceptionBehaviorTypes.Select(t => (IInterceptionBehavior)context.GetInstance(t)).ToArray())
+                WrapInterceptors(interceptionBehaviorTypes.Select(t => (IInterceptionBehavior)context.GetInstance(t)).ToArray())
             );
         }
 
-        private static Expression<Func<TPluginType, TPluginType>> buildExpression(IEnumerable<IInterceptionBehavior> interceptionBehaviors)
+        private static Expression<Func<TPluginType, TPluginType>> BuildExpression(IEnumerable<IInterceptionBehavior> interceptionBehaviors)
         {
             return instance => proxyGenerator.CreateInterfaceProxyWithTarget(
                 instance,
-                wrapInterceptors(interceptionBehaviors.ToArray())
+                WrapInterceptors(interceptionBehaviors.ToArray())
             );
         }
 
-        private static Castle.DynamicProxy.IInterceptor wrapInterceptors(IInterceptionBehavior[] interceptionBehaviors)
+        private static CastleInterceptor WrapInterceptors(IInterceptionBehavior[] interceptionBehaviors)
         {
             foreach (var behavior in interceptionBehaviors)
             {
@@ -58,16 +58,16 @@ namespace Lamar.DynamicInterception
                     !(behavior is IAsyncInterceptionBehavior))
                 {
                     throw new LamarException(
-                        $"{behavior.GetType().GetFullName()} implements neither ISyncInterceptionBehavior nor IAsyncInterceptionBehavior");
+                        $"{behavior.GetType().FullNameInCode()} implements neither ISyncInterceptionBehavior nor IAsyncInterceptionBehavior");
                 }
             }
             return new CastleInterceptor(interceptionBehaviors);
         }
 
-        private static string buildDescription(IEnumerable<Type> interceptionBehaviorTypes)
+        private static string BuildDescription(IEnumerable<Type> interceptionBehaviorTypes)
         {
             return
-                $"DynamicProxyInterceptor of {typeof(TPluginType).GetFullName()} with interception behaviors: {string.Join(", ", interceptionBehaviorTypes.Select(t => t.GetFullName()))}";
+                $"DynamicProxyInterceptor of {typeof(TPluginType).FullNameInCode()} with interception behaviors: {string.Join(", ", interceptionBehaviorTypes.Select(t => t.FullNameInCode()))}";
         }
 
         public override string Description => _description;
