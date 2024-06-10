@@ -1,11 +1,11 @@
-﻿using JasperFx.Core.Reflection;
+﻿using LamarCodeGeneration.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Lamar.DynamicInterception
 {
-    internal static class InterceptorFunctionBuilder
+    internal class InterceptorFunctionBuilder
     {
         #region Build Registration Functions Methods
 
@@ -16,7 +16,7 @@ namespace Lamar.DynamicInterception
             Func<IServiceContext, TPluginType> proxyFunction = (context) =>
             {
                 TPluginType service = context.GetInstance<TPluginTypeProxy>();
-                return BuildInterceptorFunction<TPluginType>(behavior(context))(service);
+                return InterceptorFunctionBuilder.BuildInterceptorFunction<TPluginType>(behavior(context))(service);
             };
             return proxyFunction;
         }
@@ -28,7 +28,7 @@ namespace Lamar.DynamicInterception
             Func<IServiceContext, TPluginType> proxyFunction = (context) =>
             {
                 TPluginType service = context.GetInstance<TPluginTypeProxy>();
-                return BuildInterceptorFunction<TPluginType>(behavior)(service);
+                return InterceptorFunctionBuilder.BuildInterceptorFunction<TPluginType>(behavior)(service);
             };
             return proxyFunction;
         }
@@ -40,31 +40,31 @@ namespace Lamar.DynamicInterception
             Func<IServiceContext, TPluginType> proxyFunction = (context) =>
             {
                 TPluginType service = context.GetInstance<TPluginTypeProxy>();
-                return BuildInterceptorsFunction<TPluginType>(behaviors)(service);
+                return InterceptorFunctionBuilder.BuildInterceptorsFunction<TPluginType>(behaviors)(service);
             };
             return proxyFunction;
         }
 
-        public static Func<IServiceContext, TPluginType> Build<TPluginType, TPluginTypeProxy>(string instanceName, IInterceptionBehavior behavior)
+        public static Func<IServiceContext, TPluginType> Build<TPluginType, TPluginTypeProxy>(String instanceName, IInterceptionBehavior behavior)
             where TPluginType : class
             where TPluginTypeProxy : TPluginType
         {
             Func<IServiceContext, TPluginType> proxyFunction = (context) =>
             {
                 TPluginType service = context.GetInstance<TPluginTypeProxy>(instanceName);
-                return BuildInterceptorFunction<TPluginType>(behavior)(service);
+                return InterceptorFunctionBuilder.BuildInterceptorFunction<TPluginType>(behavior)(service);
             };
             return proxyFunction;
         }
 
-        public static Func<IServiceContext, TPluginType> Build<TPluginType, TPluginTypeProxy>(string instanceName, IEnumerable<IInterceptionBehavior> behaviors)
+        public static Func<IServiceContext, TPluginType> Build<TPluginType, TPluginTypeProxy>(String instanceName, IEnumerable<IInterceptionBehavior> behaviors)
             where TPluginType : class
             where TPluginTypeProxy : TPluginType
         {
             Func<IServiceContext, TPluginType> proxyFunction = (context) =>
             {
                 TPluginType service = context.GetInstance<TPluginTypeProxy>(instanceName);
-                return BuildInterceptorsFunction<TPluginType>(behaviors)(service);
+                return InterceptorFunctionBuilder.BuildInterceptorsFunction<TPluginType>(behaviors)(service);
             };
             return proxyFunction;
         }
@@ -77,10 +77,10 @@ namespace Lamar.DynamicInterception
         private static Func<TPluginType, TPluginType> BuildInterceptorFunction<TPluginType>(IInterceptionBehavior behavior)
              where TPluginType : class
         {
-            ICollection<IInterceptionBehavior> behaviors = new List<IInterceptionBehavior>() { behavior };
+            ICollection<IInterceptionBehavior> behaviors = new List<IInterceptionBehavior>();
+            behaviors.Add(behavior);
             return BuildInterceptorsFunction<TPluginType>(behaviors);
         }
-
         private static Func<TPluginType, TPluginType> BuildInterceptorsFunction<TPluginType>(IEnumerable<IInterceptionBehavior> behaviors)
              where TPluginType : class
         {
@@ -91,7 +91,7 @@ namespace Lamar.DynamicInterception
             LambdaExpression lambda = Expression.Lambda(lambdaType, expression, variable);
             return lambda.Compile().As<Func<TPluginType, TPluginType>>();
         }
-
+        
         #endregion Build Interceptor Functions Methods
     }
 }

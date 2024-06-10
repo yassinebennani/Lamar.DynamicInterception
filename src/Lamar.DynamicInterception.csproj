@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Yassine BENNANI</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -12,8 +13,10 @@
 This Project is a workaround to support dynamic interceptions with Lamar as interceptors are not supported yet natively by Lamar.</Description>
     <Version>1.1.1</Version>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="5.1.1" />
-    <PackageReference Include="Lamar" Version="13.0.4" />
+    <PackageReference Include="Castle.Core" Version="5.1.0" />
+    <PackageReference Include="Lamar" Version="8.0.1" />
   </ItemGroup>
+
 </Project>
