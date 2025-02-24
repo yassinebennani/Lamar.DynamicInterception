@@ -67,7 +67,7 @@ namespace Lamar.DynamicInterception
         private static string buildDescription(IEnumerable<Type> interceptionBehaviorTypes)
         {
             return
-                $"DynamicProxyInterceptor of {typeof(TPluginType).GetFullName()} with interception behaviors: {string.Join(", ", interceptionBehaviorTypes.Select(t => t.GetFullName()))}";
+                $"DynamicProxyInterceptor of {typeof(TPluginType).FullNameInCode()} with interception behaviors: {string.Join(", ", interceptionBehaviorTypes.Select(t => t.FullNameInCode()))}";
         }
 
         public override string Description => _description;

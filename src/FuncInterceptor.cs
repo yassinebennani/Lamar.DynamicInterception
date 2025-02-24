@@ -91,7 +91,7 @@ namespace Lamar.DynamicInterception
 
         public override string ToString()
         {
-            return String.Format("Interceptor of {0}: {1}", typeof(T).GetFullName(), Description);
+            return String.Format("Interceptor of {0}: {1}", typeof(T).FullNameInCode(), Description);
         }
     }
 
@@ -137,9 +137,9 @@ namespace Lamar.DynamicInterception
             {
                 return Expression.Convert(_after, _before.Type);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 
