@@ -11,6 +11,7 @@ jobs:
     env:
       BUILD_CONFIG: 'Release'
       SOLUTION: 'src/Lamar.DynamicInterception.sln'
+      NUGETDIRECTORY: ${{ github.workspace}}/nuget
       
     runs-on: ubuntu-latest
 
@@ -30,4 +31,4 @@ jobs:
       run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
       
     - name: Push
-      run: dotnet nuget push "**\*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+      run: dotnet nuget push "**/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
