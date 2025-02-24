@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Yassine BENNANI</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -11,12 +11,12 @@
     <PackageTags>Lamar;Interception;Interceptor</PackageTags>
     <Description>This project is an adapation of StructureMap.DynamicInterception. 
 This Project is a workaround to support dynamic interceptions with Lamar as interceptors are not supported yet natively by Lamar.</Description>
-    <Version>1.2.0</Version>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
 	<PackageReference Include="Castle.Core" Version="5.1.1" />
-    <PackageReference Include="Lamar" Version="13.0.4" />
+    <PackageReference Include="Lamar" Version="14.0.1" />
   </ItemGroup>
 
 </Project>
